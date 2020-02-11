@@ -18,7 +18,7 @@ HEIGHT = 100
 SCREENWIDTH = 1000
 SCREENHEIGHT = 1000
 
-#node structure x,y = position, c = count to get to this position, h is distance to distination
+#node structure x,y = position, c = count to get to this position, d is distance to distination
 class node:
     x = 0
     y = 0
@@ -74,7 +74,7 @@ if __name__ == '__main__':
     # first part, to select start and finish node
     FLAG_inputOK = 0
     while(True):
-     #get ;ouse position on click
+     #get mouse position on click
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONUP:
                 (x,y)=pygame.mouse.get_pos()
@@ -90,7 +90,7 @@ if __name__ == '__main__':
                         FLAG_inputOK = 1
                         x = None
                         break
-        # second click if finish point
+        # second click is finish point
         elif FLAG_inputOK == 1 and x!= None :
             i = 0
             for anode in grid:
@@ -139,15 +139,19 @@ if __name__ == '__main__':
         for anode in lowestF : 
             if anode.h < current.h:
                 current = anode
+            
         # set current node as closed (i.e. already searched)
+        # may be faster with better data strucute (BST ?) and binary search ? hash table ? 
         for anode in grid:
             if anode.isWall == 1:
                 continue
             if anode.x == current.x and anode.y == current.y:
                 anode.openList = 2
+        
         #for each neighbor of current
-       
        # search for neighbors around current node, mark them as open, calcul their heuristic (if better than previous)
+       # Will be way faster with hash table with x or y as key
+       # make usage of cluster to search only for closest node
         neighbor = []
         for anode in grid:
             if anode.isWall:
